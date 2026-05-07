@@ -25,11 +25,15 @@ def contar_combinaciones(n):
     memo = {}
 
     def dp(longitud, ultimo):
+        # Caso base: si la longitud es 1, hay una combinación valida en el que esta
         if longitud == 1:
             return 1
+        # si lo encuentra en memo, devuelve el resultado almacenado
         if (longitud, ultimo) in memo:
             return memo[(longitud, ultimo)]
+        # Si no, calcula el total de combinaciones para la longitud dada y el ultimo numero
         total = 0
+
         for vecino in vecinos[ultimo]:
             total += dp(longitud - 1, vecino)
         memo[(longitud, ultimo)] = total
@@ -39,6 +43,33 @@ def contar_combinaciones(n):
         total_combinaciones += dp(n, str(tecla))
     return total_combinaciones
 
-n = int(input("Ingrese la longitud de la combinación (n): "))
-total_combinaciones = contar_combinaciones(n)
-print(f"Total de combinaciones de {n} dígitos: {total_combinaciones}")
+def generar_combinaciones(n):
+    combinaciones = []
+
+    def backtracking(combinacion_actual):
+        if len(combinacion_actual) == n:
+            combinaciones.append(combinacion_actual)
+            return
+
+        ultimo = combinacion_actual[-1]
+
+        for vecino in vecinos[ultimo]:
+            backtracking(combinacion_actual + vecino)
+
+    for tecla in range(10):
+        backtracking(str(tecla))
+
+    return combinaciones
+def ejecutar_problema3():
+    print("\nPROBLEMA 3: TECLADO NOKIA")
+
+    n = int(input("Ingrese la longitud de la combinación: "))
+
+    total = contar_combinaciones(n)
+    combinaciones = generar_combinaciones(n)
+
+    print(f"Total de combinaciones de {n} dígitos: {total}")
+
+    print("\nCombinaciones generadas:")
+    cadena = "{ " + ", ".join(combinaciones) + " }"
+    print(cadena)

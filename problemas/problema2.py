@@ -1,75 +1,124 @@
 # PROBLEMA 2. KNAPSACK PROBLEM FRACCIONADO 
 
+# Para este problema tenemos un ladrón con una mochila que aguanta W unidades de peso.
+# Busca robar el máximo valor que pueda de una selección de artículos.
+# Cada artículo tiene precio y peso.
+# No es necesario robar el artículo completo, se puede robar una fracción del mismo.
 
-# Para este problema tenemos un ladron con una mochila que aguanta W unidades u de peso 
-# Busca robar el maximo valor que pueda de una selección de n artículos 
-# articulo i tiene precio p y hay w unidades de peso disponibles del mismo 
-
-# No es necesario robar el articulo completo, se puede robar una fracción del mismo
-
-
-# creación de casos de prueba rapiditos 
-casos = [
-
-    {
-        "W": 50,
-        "articulos": [
-            (60, 10),  # precio, peso
-            (150, 20),
-            (90, 30)
-        ]
-    },
-    {
-        "W": 15,
-        "articulos": [
-            (30, 5),
-            (40, 10),
-            (45, 15)
-        ]
-    },
-    {
-        "W": 150,
-        "articulos": [
-            (200, 40),
-            (150, 30),
-            (300, 50)
-        ]
-    }
-]
 
 def knapsack_fraccionado(W, articulos):
-    # Ordenamiento de artículos por valir por unidad
-    for articulo in articulos:
-        valor_unitario = articulo[0] / articulo[1]
-        print(f"Artículo con precio {articulo[0]} y peso {articulo[1]} tiene valor por unidad: {valor_unitario}")
+    # Guardamos el número original del artículo para que sea más fácil leer la salida
+    articulos_con_indice = []
 
-    # Ordenar artículos por valor por unidad en orden descendente
-    articulos.sort(key=lambda x: x[0] / x[1], reverse=True)
+    for i, articulo in enumerate(articulos, start=1):
+        precio = articulo[0]
+        peso = articulo[1]
+        valor_unitario = precio / peso
 
-    capacidad_restante = w
+        articulos_con_indice.append((i, precio, peso, valor_unitario))
+
+    # Ordenamos por valor por unidad de mayor a menor
+    articulos_ordenados = sorted(
+        articulos_con_indice,
+        key=lambda x: x[3],
+        reverse=True
+    )
+
+    capacidad_restante = W
     valor_total = 0
     seleccion = []
 
-    for articulo in articulos:
-        if capacidad_restante == 0:
-            break 
-        cantidad_tomada = min(articulo[1], capacidad_restante)
-        valor_obtenido = cantidad_tomada * (articulo[0] / articulo[1])
+    for articulo in articulos_ordenados:
+        numero_articulo = articulo[0]
+        precio = articulo[1]
+        peso = articulo[2]
+        valor_unitario = articulo[3]
 
-        valor_total += valor_obtenido
+        if capacidad_restante == 0:
+            break
+
+        cantidad_tomada = min(peso, capacidad_restante)
+        valor_obtenido = cantidad_tomada * valor_unitario
+
         seleccion.append({
-            "articulo" : articulo,
-            "cantidad_tomada" : cantidad_tomada,
-            "valor_obtenido" : valor_obtenido
+            "numero_articulo": numero_articulo,
+            "precio": precio,
+            "peso": peso,
+            "cantidad_tomada": cantidad_tomada,
+            "valor_unitario": valor_unitario,
+            "valor_obtenido": valor_obtenido
         })
 
+        valor_total += valor_obtenido
         capacidad_restante -= cantidad_tomada
 
-    print(f"Valor total obtenido: {valor_total}")
-    print("Selección de artículos:")
+    return seleccion, valor_total
 
-for i, caso in enumerate(casos, start=1):
-    print(f"\nCaso de prueba {i + 1}:")
-    W = caso["W"]
-    articulos = caso["articulos"]
-    knapsack_fraccionado(W, articulos)
+
+def ejecutar_problema2():
+    print("\nPROBLEMA 2: KNAPSACK FRACCIONADO")
+
+    casos = [
+        {
+            "W": 50,
+            "articulos": [
+                (60, 10),   # precio, peso
+                (100, 20),
+                (120, 30)
+            ]
+        },
+        {
+            "W": 15,
+            "articulos": [
+                (30, 5),
+                (40, 10),
+                (45, 15)
+            ]
+        },
+        {
+            "W": 60,
+            "articulos": [
+                (200, 50),
+                (150, 25),
+                (180, 30)
+            ]
+        }
+    ]
+
+    for i, caso in enumerate(casos, start=1):
+        W = caso["W"]
+        articulos = caso["articulos"]
+
+        print(f"\nCASO DE PRUEBA {i}")
+        print(f"Capacidad de la mochila: {W} unidades")
+        print("\nArtículos disponibles:")
+
+        for j, articulo in enumerate(articulos, start=1):
+            precio = articulo[0]
+            peso = articulo[1]
+            valor_unitario = precio / peso
+
+            print(
+                f"Artículo {j}: precio = {precio}, "
+                f"peso = {peso}, "
+                f"valor por unidad = {valor_unitario:.2f}"
+            )
+
+        seleccion, valor_total = knapsack_fraccionado(W, articulos)
+
+        print("\nSelección realizada por el algoritmo greedy:")
+
+        for item in seleccion:
+            if item["cantidad_tomada"] == item["peso"]:
+                tipo_toma = "se tomó completo"
+            else:
+                tipo_toma = "se tomó parcialmente"
+
+            print(
+                f"Se seleccionó el Artículo {item['numero_articulo']}: "
+                f"{tipo_toma}. "
+                f"Cantidad tomada = {item['cantidad_tomada']} de {item['peso']} unidades. "
+                f"Valor obtenido = {item['valor_obtenido']:.2f}."
+            )
+
+        print(f"\nValor total máximo obtenido: {valor_total:.2f}")

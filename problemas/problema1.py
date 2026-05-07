@@ -5,24 +5,28 @@
 # Las monedas disponibles son: 1, 5, 10, 25
 # Se pueden tomar todas las monedas que necesitemos de cada denominación
 
-def main():
-    m = int(input("Ingrese el monto a analizar: "))
 
-monedas = [25, 10, 5, 1]
-resultado = {}
-total_monedas = 0 
+def hacer_sencillo(m):
+    monedas = [25, 10, 5, 1]
+    resultado = {}
+    total_monedas = 0 
 
-for moneda in monedas:
-    cantidad_monedas = m // moneda
-    resultado[moneda] = cantidad_monedas
-    total_monedas += cantidad_monedas
-    m -= cantidad_monedas * moneda
+    # Para cada moneda, calculamos cuántas monedas de esa denominación se necesitan 
+    # y actualizamos el monto restante
+    for moneda in monedas:
+        cantidad_monedas = m // moneda
+        resultado[moneda] = cantidad_monedas
+        total_monedas += cantidad_monedas
+        m -= cantidad_monedas * moneda
 
-print("Cantidad de monedas necesarias:")
-for moneda, cantidad in resultado.items():
-    print(f"{moneda} centavos: {cantidad}")
+    print("Cantidad de monedas necesarias:")
+    for moneda, cantidad in resultado.items():
+        print(f"{moneda} centavos: {cantidad}")
     print(f"Total de monedas utilizadas: {total_monedas}")
 
-print("=" * 30)
-
+def ejecutar_problema1():
+    print("PROBLEMA 1 ")
+    monto = int(input("Ingrese el monto en centavos: "))
+    hacer_sencillo(monto)
+    
 

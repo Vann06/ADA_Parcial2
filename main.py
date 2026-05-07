@@ -1,24 +1,37 @@
-# MAIN - Manejo de problemas
+# MAIN - ejecucion de problemas
 
-# Importar los problemas
-from problemas import problema1
-from problemas import problema2
-from problemas import problema3
-
+from problemas.problema1 import ejecutar_problema1
+from problemas.problema2 import ejecutar_problema2
+from problemas.problema3 import ejecutar_problema3
 
 
 def main():
-    print("Bienvenido al programa de análisis de montos con monedas.")
-    print("Selecciona el problema que deseas resolver:")
-    print("1. Análisis de monto con monedas")
-    
-    opcion = input("Ingrese el número del problema a resolver: ")
-    
-    if opcion == '1':
-        problema1
-    elif opcion == '2':
-        problema2
-    elif opcion == '3':
-        problema3
-    else:
-        print("Opción no válida. Por favor, selecciona un número válido.")
+    while True:
+        print("\nPARCIAL 2 - ADA")
+        print("Seleccione una opción:")
+        print("1. Hacer sencillo")
+        print("2. Knapsack fraccionado")
+        print("3. Teclado Nokia")
+        print("0. Salir")
+
+        opcion = input("Ingrese una opción: ")
+
+        if opcion == "1":
+            ejecutar_problema1()
+
+        elif opcion == "2":
+            ejecutar_problema2()
+
+        elif opcion == "3":
+            ejecutar_problema3()
+
+        elif opcion == "0":
+            print("Programa finalizado.")
+            break
+
+        else:
+            print("Opcion no válida. Intente de nuevo.")
+
+
+if __name__ == "__main__":
+    main()
