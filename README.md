@@ -12,9 +12,7 @@ Los problemas implementados son:
 
 ## Video de explicación
 
-[![Explicación del Parcial 2](https://img.youtube.com/vi/VIDEO_ID/0.jpg)](https://www.youtube.com/watch?v=VIDEO_ID)
-
-> Reemplazar `VIDEO_ID` por el ID real del video subido a YouTube como no listado.
+[![Explicación del Parcial 2](https://img.youtube.com/vi/7ZMgf8-lzS0/0.jpg)](https://youtu.be/7ZMgf8-lzS0)
 
 ---
 
